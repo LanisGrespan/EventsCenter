@@ -19,15 +19,21 @@
   font-family: 'sugarplum';
   src: url('../fonts/sugarplum.ttf');
 }
+
+@font-face {
+  font-family: 'Arimo';
+  src: url('../fonts/Arimo/Arimo-Regular.ttf') format('truetype');
+}
+
 body {
   font-family: "Open Sans", sans-serif;
-  /* color: #ffffff; */
+  color: #ffffff; 
   background-color: rgb(0, 0, 0);
 }
 
 a {
   color: #717171;
-  text-decoration: none;
+  /* text-decoration: none; */
 }
 
 a:hover {
@@ -410,10 +416,24 @@ h6 {
 # Login Section
 --------------------------------------------------------------*/
 
+body.PaginaLogin {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
 
-#login .container h1 {
-  background-color:white
-  
+.login {
+  width: 420px;
+  /* background-color: rgb(200, 165, 22)  */
+}
+
+.login h1{
+  font-size: 30px;
+  text-align: center; 
+  font-family: "Arimo", sans-serif;
+  letter-spacing: 4px;
+  font-weight: 100;
 }
 
 /*--------------------------------------------------------------
@@ -1027,6 +1047,7 @@ transition: all 0.7s ease;
 }
 
 .testimonials .testimonial-item p {
+  color: #717171;
   font-style: italic;
   margin: 0 15px 0 15px;
   padding: 20px 20px 60px 20px;

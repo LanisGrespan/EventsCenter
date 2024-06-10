@@ -5,74 +5,45 @@
 <head>
 
     <meta charset="UTF-8">
-    <!-- <meta http-equiv="X-UA-Compartible" content="IE=edge"> -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="/static/css/form.css" rel="stylesheet">
+    <meta http-equiv="X-UA-Compartible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, 
+    initial-scale=1.0">
+    <link href="/static/css/style.css" rel="stylesheet">
+    <link href='htts://umpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel="stylesheet">
     <title>Página de login</title>
 
 </head>
 
-<body>
-
-    <section>
-    
-        <div id="login">
-
-            {% if message %}
-                        <p style="color: white;">Sua reserva foi concluída com sucesso! Realize o pagamento diretamente no estabelecimento.</p>
-                    {% endif %}
-
-                <form method="post">
-                    <div class="form-area">
-
-                        <div class="col-logo">
-                            <title>LOGIN</title>
-                        </div>
-
-                        <div class="formulario">
-                    
-                            <div class="col">
-
-                                <div class="rowt">
-                                    <label for="email">E-mail:</label>
-                                </div>
-
-                                 <div class="rowt">
-                                    <label for="email">Senha:</label>
-                                </div>
-
-                            </div>
-
-                            <div class="col">
-
-                                <div class= "row">
-                                    <input required type="email" name="email" class="campo">
-                                </div>
-
-                                <div class="row">
-                                    <input required type="password" name="senha" class="campo">
-                                </div>
-                               
-                            
-                                <div class="rowb">
-                                    <p>Ainda não possui uma conta? Crie uma</p>
-                                    <button type="submit">Entrar</button>
-                                </div>
-
-                            </div>
-
-                            
-                        
-                        </div>
-
-                    </div>
-
-                </form>
+<body class="PaginaLogin">
+    <!-- wrapper -->
+    <div class="login"> 
+        
+        <form action="">
+            
+            <h1>Login</h1>
+            <div class="input-box">
+                <input type="text" placeholder="Nome de usuário" required>
+                <a img src="{{ url_for('static', filename='img/logopng/logoballet.png')}}" alt="" class="img-fluid" width="100px"></a>
             </div>
 
-        </div>
-    
-    </section>
+            <div class="input-box">
+                <input type="password" placeholder="Senha" required>
+            </div>
+
+            <div class="lembre-a-senha">
+                <label><input type="checkbox">Lembrar da senha</input></label>
+                <a href="#">Esqueceu a senha?</a>
+            </div>
+
+            <button type="submit" class="btn-login"></button>
+
+            <div class="register-link">
+                <p>Ainda não tem uma conta?<a href="#">Criar uma</a> </p>
+            </div>
+
+        </form>
+
+    </div>
     
 </body>
 
