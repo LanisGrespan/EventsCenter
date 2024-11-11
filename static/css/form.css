@@ -33,14 +33,12 @@ button {
 }
 
 section{
-    background: url(/static/img/backform.jpg);
-    background-repeat: no-repeat;
-    background-size: cover;
     height: 100vh; 
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
+    background-color: black;
 }
 
 
@@ -82,4 +80,9 @@ section{
 .rowb{
     margin-top: 40px;
 }
+
+/*--------------------------------------------------------------
+# Login
+--------------------------------------------------------------*/
+
 

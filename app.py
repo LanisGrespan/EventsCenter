@@ -1,24 +1,34 @@
 import click
-from flask import Flask, render_template, request, flash, redirect, url_for
+from flask import Flask, render_template, request, flash, redirect, url_for, session
 from flask.cli import with_appcontext
 from connection import db
+from model import User
+from flask_login import LoginManager, login_user , logout_user, login_required, current_user
+from flask_bcrypt import Bcrypt
 
+# Configuração do aplicativo Flask
 app = Flask(__name__)
 app.secret_key = "abax"
 
-# app.config['SQLALCHEMY_DATABASE_URI'] = "mysql+mysqldb://root:5e5i#123@localhost:3306/flaskola"
+# Configuração do Flask-Login
+login_manager = LoginManager()
+login_manager.login_view = 'login'  # Define a rota de login para redirecionar não autenticados
+login_manager.init_app(app)
+
+# Configuração do Flask-Bcrypt
+bcrypt = Bcrypt(app)
+
+# Configure o URI do banco de dados
 app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///flaskola.db"
-
-# app.config['SQLALCHEMY_DATABASE_URI'] = "mssql+pymssql://dbo:5e5i_123@10.134.75.121:1433/eventcenter/?charset=utf8"
-
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db.init_app(app)
+
 def init_db():
     db.drop_all()
-    # db.create_all()
-    db.reflect()
+    db.reflect() # Pega as tabelas criadas no model e joga no database
 
+# Comando para inicializar o banco de dados
 @click.command("init-db")
 @with_appcontext
 def init_db_command():
@@ -29,12 +39,65 @@ def init_db_command():
 
 app.cli.add_command(init_db_command)
 
+# Configuração do login_manager para redirecionar para a página de login
+login_manager.login_view = 'login'
+
+# Carregando o usuário com base no ID
+@login_manager.user_loader
+def load_user(user_id):
+    return User.get(user_id)
+
+# Definição das rotas
 @app.route("/")
 def index():
-    
-    return render_template("index.html")
+    if 'username' in session:
+        return render_template("index.html")  # Página principal
+    else:
+        return redirect(url_for('login'))  # Redireciona para a página de login
+
+
+#isso quebrou o codigo
+@app.route("/login", methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        username = request.form.get('username')
+        password = request.form.get('password')
+        remember = True if request.form.get('remember') else False  # Verificar se o checkbox foi marcado
+
+        # Verificar as credenciais
+        user = User.query.filter_by(username=username, password=password).first()
+
+        # if user and bcrypt.check_password_hash(user.password, password):
+        #     login_user(user)
+        #     return redirect(url_for('index'))
+        # else:
+        #     # Credenciais incorretas, exibe mensagem de erro
+        #     flash('Nome de usuário ou senha incorretos')
+        #     return redirect(url_for('login'))
+
+        if user and bcrypt.check_password_hash(user.password, password):
+            login_user(user, remember=remember)  # Usar a flag 'remember' para manter o login
+            
+            # Se o checkbox "lembrar de mim" foi marcado, setar a sessão para o tempo desejado
+            if remember:
+                session.permanent = True
+                app.permanent_session_lifetime = timedelta(days=30)  # O usuário será lembrado por 30 dias
+            return redirect(url_for('index'))  # Após login bem-sucedido, redireciona para a home
+        else:
+            flash('Credenciais incorretas. Tente novamente.', 'error')
+            return render_template('login.html')
+
+    return render_template('login.html')
+
+# Página de logout (com @login_required, agora só acessível por usuários logados)
+@app.route("/logout")
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('index'))
 
 @app.route("/compra", methods=('GET', 'POST'))
+@login_required
 def compra():
     
     erros = []
@@ -101,6 +164,3 @@ def contato():
     return erros
     # return render_template("index.html", erros=erros)
 
-@app.route("/login", methods = ('GET', 'POST'))
-def login():
-    return render_template("login.html")

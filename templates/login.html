@@ -2,49 +2,63 @@
 
 <html lang="en">
 
-<head>
+    <head>
 
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compartible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, 
-    initial-scale=1.0">
-    <link href="/static/css/style.css" rel="stylesheet">
-    <link href='htts://umpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel="stylesheet">
-    <title>Página de login</title>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compartible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, 
+        initial-scale=1.0">
+        <link href="/static/css/style.css" rel="stylesheet">
+        <link href='htts://umpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel="stylesheet">
+        <title>Página de login</title>
 
-</head>
+    </head>
 
-<body class="PaginaLogin">
-    <!-- wrapper -->
-    <div class="login"> 
-        
-        <form action="">
-            
-            <h1>Login</h1>
-            <div class="input-box">
-                <input type="text" placeholder="Nome de usuário" required>
-                <a img src="{{ url_for('static', filename='img/logopng/logoballet.png')}}" alt="" class="img-fluid" width="100px"></a>
-            </div>
+    <body class="PaginaLogin">
 
-            <div class="input-box">
-                <input type="password" placeholder="Senha" required>
-            </div>
+        <div class="container">
+            <video autoplay muted loop id="video-background">
+                <source src="/static/img/login/swan-background.mp4" type="video/mp4">
+            </video>
 
-            <div class="lembre-a-senha">
-                <label><input type="checkbox">Lembrar da senha</input></label>
-                <a href="#">Esqueceu a senha?</a>
-            </div>
-
-            <button type="submit" class="btn-login"></button>
-
-            <div class="register-link">
-                <p>Ainda não tem uma conta?<a href="#">Criar uma</a> </p>
-            </div>
-
-        </form>
-
-    </div>
+            <div class="login-card">
+                <div class="col-icon">
+                    <img src="../static/img/login/perfil-login.png" class="login-icon" width="100px">
+                </div>
+                <form action="/login" method="post">
+                    <h1>Login</h1>
     
-</body>
+                    {% with messages = get_flashed_messages() %}
+                        {% if messages %}
+                            <ul class="flash-messages">
+                                {% for message in messages %}
+                                    <li>{{ message }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    {% endwith %}
+    
+                    <div class="input-box">
+                        <input type="text" name="username" class="input-color" placeholder="ID" required>
+                    </div>
+    
+                    <div class="input-box">
+                        <input type="password" name="password" class="input-color" placeholder="Senha" required>
+                    </div>
+    
+                    <div class="lembre-a-senha">
+                        <label><input type="checkbox"> Lembrar da senha</label>
+                        <a href="#">Esqueceu a senha?</a>
+                    </div>
+    
+                    <div class="register-link">
+                        <p>Ainda não tem uma conta? <a href="#">Criar uma</a></p>
+                    </div>
+    
+                    <button type="submit" class="btn-login">Login</button>
+                </form>
+            </div>
+        </div>
+    </body>
 
 </html>
