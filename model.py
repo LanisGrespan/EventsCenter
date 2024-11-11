@@ -1,6 +1,23 @@
 from sqlalchemy import Column, String, Integer, Double, DateTime
 from connection import db
 from datetime import datetime
+from flask_bcrypt import Bcrypt
+from flask_login import UserMixin
+
+# Definições dos modelos
+class User(db.Model, UserMixin):
+    id_user = Column(Integer, primary_key=True, autoincrement=True)
+    username = Column(String, nullable=False)
+    password = Column(String, nullable=False)
+
+    @staticmethod
+    def get(user_id):
+        return User.query.get(int(user_id))
+
+    def check_password(self, password):
+        """Verifica se a senha fornecida corresponde à senha armazenada."""
+        return bcrypt.check_password_hash(self.password, password)
+
 
 class Inscricao(db.Model):
     __tablename__ = "inscricoes"
