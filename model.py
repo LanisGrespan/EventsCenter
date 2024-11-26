@@ -6,8 +6,10 @@ from flask_login import UserMixin
 
 # Definições dos modelos
 class User(db.Model, UserMixin):
-    id_user = Column(Integer, primary_key=True, autoincrement=True)
+    __tablename__ = "user"
+    id = Column(Integer, primary_key=True, autoincrement=True)
     username = Column(String, nullable=False)
+    email = Column(String, nullable=False)
     password = Column(String, nullable=False)
 
     @staticmethod

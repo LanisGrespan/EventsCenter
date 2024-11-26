@@ -446,7 +446,7 @@ a:hover {
   position: relative;
   /* max-width: 700px; */
   width: 570px;
-  height: 500px;
+  height: 540px;
   /* padding: 20px; */
   background: rgba(0, 0, 0, 0.518); 
   border-radius: 40px;
@@ -483,7 +483,7 @@ a:hover {
   border-radius: 30px;
   width: 400px;
   height: 40px;
-  margin-bottom: 10px;
+  margin-bottom: 17px;
   background-color: transparent;
   letter-spacing: 3px;
   border-width: 0.13em; /* Define a espessura da borda */
@@ -527,7 +527,7 @@ a:hover {
   justify-content: space-between; /* Espalha os itens */
   align-items: center; /* Alinha verticalmente ao centro */
   letter-spacing: 1px;
-  margin-top: 30px;
+  margin-top: 40px;
   padding: 20px;
 }
 
