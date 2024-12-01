@@ -1,5 +1,5 @@
 import click
-from flask import Flask, render_template, request, flash, redirect, url_for, session
+from flask import Flask, render_template, request, flash, redirect, url_for, session, make_response
 from flask.cli import with_appcontext
 from connection import db
 from model import User
@@ -19,9 +19,14 @@ login_manager = LoginManager()
 login_manager.login_view = 'login'  # Define a rota de login para redirecionar não autenticados
 login_manager.init_app(app)
 
+# Configurações de sessão
+app.config['SESSION_PERMANENT'] = True  # Sessões permanentes
+app.config['SESSION_TYPE'] = 'filesystem'  # Tipo de armazenamento para sessões (usar o sistema de arquivos)
+
 # Configuração do Flask-Bcrypt
 bcrypt = Bcrypt(app)
 basedir = os.path.abspath(os.path.dirname(__file__))
+
 # Configure o URI do banco de dados
 app.config['SQLALCHEMY_DATABASE_URI'] =\
         'sqlite:///' + os.path.join(basedir, 'database.db')
@@ -92,31 +97,44 @@ def index():
 #isso quebrou o codigo
 @app.route("/login", methods=['GET', 'POST'])
 def login():
+    # Verificar se já há um cookie de "lembrar"
+    username = request.cookies.get('username')
+    if username:
+        # Tenta buscar o usuário no banco de dados usando o nome de usuário do cookie
+        user = User.query.filter_by(username=username).first()
+        if user:
+            # Faz o login automaticamente se o usuário for encontrado
+            login_user(user, remember=True)
+            return redirect(url_for('index'))  # Redireciona para a página principal após login automático
+
+    # Se não houver cookie, continua o fluxo normal de login
     if request.method == 'POST':
         username = request.form.get('username')
         password = request.form.get('password')
         remember = True if request.form.get('remember') else False  # Verificar se o checkbox foi marcado
+        
 
         # Verificar as credenciais
         user = User.query.filter_by(username=username).first()
-
-        # if user and bcrypt.check_password_hash(user.password, password):
-        #     login_user(user)
-        #     return redirect(url_for('index'))
-        # else:
-        #     # Credenciais incorretas, exibe mensagem de erro
-        #     flash('Nome de usuário ou senha incorretos')
-        #     return redirect(url_for('login'))
 
         if user and bcrypt.check_password_hash(user.password, password):
 
             login_user(user, remember=remember)  # Usar a flag 'remember' para manter o login
             
             # Se o checkbox "lembrar de mim" foi marcado, setar a sessão para o tempo desejado
+            # if remember:
+            #     session.permanent = True
+            #     app.permanent_session_lifetime = timedelta(days=30)  # O usuário será lembrado por 30 dias
+            # return redirect(url_for('index'))  # Após login bem-sucedido, redireciona para a home
+
+            # Criando um cookie de "lembrar"
             if remember:
-                session.permanent = True
-                app.permanent_session_lifetime = timedelta(days=30)  # O usuário será lembrado por 30 dias
-            return redirect(url_for('index'))  # Após login bem-sucedido, redireciona para a home
+                resp = make_response(redirect(url_for('index')))
+                resp.set_cookie('username', user.username, max_age=30*24*60*60)  # Cookie dura 30 dias
+                return resp
+            
+            return redirect(url_for('index'))
+
         else:
             flash('Credenciais incorretas. Tente novamente.', 'error')
             return render_template('login.html')
@@ -195,11 +213,13 @@ def reset_password(token):
 #     return render_template("forgot_password.html")
 
 # Página de logout (com @login_required, agora só acessível por usuários logados)
-@app.route("/logout")
-@login_required
+@app.route('/logout')
 def logout():
-    logout_user()
-    return redirect(url_for('index'))
+    # Limpar a sessão e redirecionar para a página de login
+    logout_user()  # Isso limpa todos os dados da sessão
+    resp = make_response(redirect(url_for('login')))  # Cria a resposta de redirecionamento
+    resp.delete_cookie('username')  # Remove o cookie de "lembrar"
+    return resp
 
 @app.route("/compra", methods=('GET', 'POST'))
 @login_required
