@@ -13,3 +13,6 @@ protobuf==4.21.12
 SQLAlchemy==2.0.22
 typing_extensions==4.8.0
 Werkzeug==3.0.0
+Flask-Login==0.6.3
+Flask-Mail==0.10.0
+Flask-Bcrypt==1.0.1

@@ -175,24 +175,39 @@ def reset_password(token):
 
     return render_template('reset_password.html', token=token)
 
-# def reset_password(token):
-#     if request.method == "POST":
-#         email = request.form.get("email")
-#         user = User.query.filter_by(email=email).first()
+def reset_password(token):
+    if request.method == "POST":
+        email = request.form.get("email")
+        user = User.query.filter_by(email=email).first()
 
-#         if user:
-#             token = generate_reset_token(user)
-#             reset_url = url_for('reset_password', token=token, _external=True)
+        if user:
+            token = generate_reset_token(user)
+            reset_url = url_for('reset_password', token=token, _external=True)
 
-#             # Simula o envio do e-mail
-#             send_reset_email(user, reset_url)
+            # Simula o envio do e-mail
+            send_reset_email(user, reset_url)
 
-#             flash("Verifique seu e-mail para o link de redefinição de senha.", "success")
-#             return redirect(url_for('login'))
+            flash("Verifique seu e-mail para o link de redefinição de senha.", "success")
+            return redirect(url_for('login'))
 
-#         flash("Não encontramos um usuário com esse e-mail.", "error")
+        flash("Não encontramos um usuário com esse e-mail.", "error")
     
-#     return render_template("forgot_password.html")
+    return render_template("forgot_password.html")
+
+@app.route('/forgot-password', methods=['GET', 'POST'])
+def forgot_password():
+    if request.method == 'POST':
+        email = request.form.get('email')
+        user = User.query.filter_by(email=email).first()
+        if user:
+            token = generate_reset_token(user)
+            reset_url = url_for('reset_password', token=token, _external=True)
+            send_reset_email(user, reset_url)
+            flash("Verifique seu e-mail para o link de redefinição de senha.", "success")
+            return redirect(url_for('login'))
+        flash("Não encontramos um usuário com esse e-mail.", "error")
+    
+    return render_template('forgot_password.html')  # Crie um template para isso
 
 # Página de logout (com @login_required, agora só acessível por usuários logados)
 @app.route("/logout")
