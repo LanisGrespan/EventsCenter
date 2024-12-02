@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/static/css/style.css" rel="stylesheet">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <title>Redefinir Senha</title>
+</head>
+<body class="PaginaLogin">
+    <div class="container">
+        <video autoplay muted loop id="video-background">
+            <source src="/static/img/login/swan-background.mp4" type="video/mp4">
+        </video>
+        <div class="login-card">
+            <div class="col-icon">
+                <img src="../static/img/login/perfil-login.png" class="login-icon" width="100px">
+            </div>
+            <form action="/criar_nova_senha" method="POST">
+                <h1>Redefinir Senha</h1>
+
+                <p>Por favor, insira seu e-mail e a nova senha que deseja usar.</p>
+
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        <ul class="flash-messages">
+                            {% for message in messages %}
+                                <li>{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                {% endwith %}
+
+                <div class="input-box">
+                    <input type="email" name="email" class="input-color" placeholder="Email" required>
+                </div>
+
+                <div class="input-box">
+                    <input type="password" name="password" class="input-color" placeholder="Nova Senha" required>
+                </div>
+
+                <div class="input-box">
+                    <input type="password" name="confirm_password" class="input-color" placeholder="Confirmar Nova Senha" required>
+                </div>
+
+                <div class="register-link">
+                    <p>Já tem uma conta? <a href="/login">Fazer login</a></p>
+                </div>
+
+                <button type="submit" class="btn-login">Alterar Senha</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

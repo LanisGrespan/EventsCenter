@@ -57,20 +57,6 @@ app.config['MAIL_DEFAULT_SENDER'] = 'seu_email@gmail.com'
 
 mail = Mail(app)
 
-def send_reset_email(user, reset_url):
-    msg = Message('Redefinição de Senha', recipients=[user.email])
-    msg.body = f'Clique no link para redefinir sua senha: {reset_url}'
-    try:
-        mail.send(msg)
-        print(f"E-mail de redefinição enviado para {user.email}")
-    except Exception as e:
-        print(f"Erro ao enviar o e-mail: {str(e)}")
-
-def generate_reset_token(user):
-    s = Serializer(app.config['SECRET_KEY'], expires_in=600)  # Token válido por 10 minutos
-    return s.dumps({'id': user.id_user}).decode('utf-8')
-
-
 # Configuração do login_manager para redirecionar para a página de login
 login_manager.login_view = 'login'
 
@@ -154,60 +140,38 @@ def register():
 
     return render_template('register.html')
 
-# Rota para redefinir a senha (já criada acima)
-@app.route("/reset-password/<token>", methods=["GET", "POST"])
-def reset_password(token):
-    # Verifique se o token é válido
-    email = generate_reset_token(token)
-    if not email:
-        flash('O token de redefinição de senha expirou ou é inválido.', 'error')
-        return redirect(url_for('login'))  # Redireciona para o login
-
-    # Caso o token seja válido, exibe o formulário para redefinir a senha
+@app.route('/criar_nova_senha', methods=['GET', 'POST'])
+def criar_nova_senha():
     if request.method == 'POST':
-        new_password = request.form.get('password')
-        user = User.query.filter_by(email=email).first()
-        if user:
-            user.password = bcrypt.generate_password_hash(new_password).decode('utf-8')
-            db.session.commit()
-            flash('Senha redefinida com sucesso!', 'success')
-            return redirect(url_for('login'))
-
-    return render_template('reset_password.html', token=token)
-
-def reset_password(token):
-    if request.method == "POST":
-        email = request.form.get("email")
-        user = User.query.filter_by(email=email).first()
-
-        if user:
-            token = generate_reset_token(user)
-            reset_url = url_for('reset_password', token=token, _external=True)
-
-            # Simula o envio do e-mail
-            send_reset_email(user, reset_url)
-
-            flash("Verifique seu e-mail para o link de redefinição de senha.", "success")
-            return redirect(url_for('login'))
-
-        flash("Não encontramos um usuário com esse e-mail.", "error")
-    
-    return render_template("forgot_password.html")
-
-@app.route('/forgot-password', methods=['GET', 'POST'])
-def forgot_password():
-    if request.method == 'POST':
+        username = request.form.get('username')
         email = request.form.get('email')
-        user = User.query.filter_by(email=email).first()
+        password = request.form.get('password')
+        confirm_password = request.form.get('confirm_password')
+
+        # Verificar se as senhas coincidem
+        if password != confirm_password:
+            flash('As senhas não coincidem', 'error')
+            return render_template('criar_nova_senha.html')
+
+        # Verificar se o username ou o email já existe
+        user = User.query.filter_by(username=username).first()  # Buscar o usuário pelo nome de usuário
+        if not user:
+            user = User.query.filter_by(email=email).first()  # Buscar o usuário pelo email, caso não tenha encontrado pelo username
+
         if user:
-            token = generate_reset_token(user)
-            reset_url = url_for('reset_password', token=token, _external=True)
-            send_reset_email(user, reset_url)
-            flash("Verifique seu e-mail para o link de redefinição de senha.", "success")
-            return redirect(url_for('login'))
-        flash("Não encontramos um usuário com esse e-mail.", "error")
-    
-    return render_template('forgot_password.html')  # Crie um template para isso
+            # Se o usuário já existir, atualiza a senha
+            hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
+            user.password = hashed_password
+            db.session.commit()
+
+            flash('Senha alterada com sucesso!', 'success')
+            return redirect(url_for('login'))  # Redirecionar para a página de login após a alteração da senha
+        else:
+            # Se o usuário não existir vai exibir uma mensagem de erro
+            flash('Usuário não encontrado.', 'error')
+            return render_template('criar_nova_senha.html')
+
+    return render_template('criar_nova_senha.html')
 
 # Página de logout (com @login_required, agora só acessível por usuários logados)
 @app.route("/logout")
