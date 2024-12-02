@@ -521,10 +521,29 @@ a:hover {
   text-align: center;
 }
 
-
+@media (max-width: 768px) {
+.container {
+  width: 95%;
+  height: 70%;
+}
+}
 .login-card {
   padding: 20px;
-  
+}
+
+@media (max-width: 768px) {
+  .login-card {
+    width: 99%; /* Usa 90% da largura da tela */
+    height: auto; /* Ajusta altura ao conteúdo */
+    max-width: 450px; /* Limite máximo */
+  }
+}
+@media (max-width: 768px) {
+  .input-color {
+    width: 80%; /* Usa 90% da largura da tela */
+    height: auto; /* Ajusta altura ao conteúdo */
+    max-width: 450px; /* Limite máximo */
+  }
 }
 
 .login-card h1 {
@@ -586,7 +605,7 @@ a:hover {
   padding: 10px 20px;
   border-radius: 30px;
   cursor: pointer;
-  margin-top: 140px;
+  margin-top: 110px;
 }
 
 .lembre-a-senha {
