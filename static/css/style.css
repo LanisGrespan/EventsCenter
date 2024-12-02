@@ -523,8 +523,8 @@ a:hover {
 
 @media (max-width: 768px) {
 .container {
-  width: 95%;
-  height: 70%;
+  width: 444px !important;
+  height: 70% !important;
 }
 }
 .login-card {
@@ -535,7 +535,6 @@ a:hover {
   .login-card {
     width: 99%; /* Usa 90% da largura da tela */
     height: auto; /* Ajusta altura ao conteúdo */
-    max-width: 450px; /* Limite máximo */
   }
 }
 @media (max-width: 768px) {
