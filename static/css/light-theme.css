@@ -1,0 +1,101 @@
+/* Definindo o fundo e o texto do tema claro */
+body {
+    background-color: #ffffff; /* Fundo branco */
+    color: #000000; /* Texto preto */
+    font-family: 'Arial', sans-serif;
+  }
+  
+  /* Estilo do container principal */
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #ffffff; /* Fundo branco */
+    border: 1px solid #dddddd; /* Borda cinza clara */
+    border-radius: 8px;
+  }
+  
+  /* Estilo para os links */
+  a {
+    color: #007bff; /* Azul para links */
+    text-decoration: none;
+  }
+  
+  a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Estilo para o cabeçalho */
+  header {
+    background-color: #f8f9fa; /* Fundo cinza claro */
+    padding: 20px;
+    text-align: center;
+    border-bottom: 1px solid #ddd; /* Borda inferior */
+  }
+  
+  /* Estilo para a navegação */
+  nav {
+    display: flex;
+    justify-content: center;
+    background-color: #f1f1f1; /* Fundo cinza claro */
+    padding: 10px 0;
+  }
+  
+  nav a {
+    margin: 0 15px;
+    color: #333333; /* Texto escuro para contraste */
+    font-size: 16px;
+  }
+  
+  nav a:hover {
+    color: #007bff; /* Azul ao passar o mouse */
+  }
+  
+  /* Estilo para o conteúdo principal */
+  main {
+    padding: 20px;
+    background-color: #ffffff;
+    color: #333333; /* Texto escuro */
+  }
+  
+  /* Estilo para os cards */
+  .card {
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin: 20px;
+    padding: 20px;
+  }
+  
+  /* Estilo para os botões */
+  button {
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Estilo para o rodapé */
+  footer {
+    background-color: #f1f1f1;
+    padding: 20px;
+    text-align: center;
+    border-top: 1px solid #ddd;
+  }
+  
+  footer a {
+    color: #007bff;
+  }
+  
+  footer a:hover {
+    text-decoration: underline;
+  }
+  

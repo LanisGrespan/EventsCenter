@@ -15,7 +15,7 @@
 
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i|Playfair+Display:400,400i,500,500i,600,600i,700,700i&subset=cyrillic" rel="stylesheet">
-
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <!-- Vendor CSS Files -->
   <link href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet">
   <link href="{{ url_for('static', filename='vendor/bootstrap-icons/bootstrap-icons.css')}}" rel="stylesheet">
@@ -25,6 +25,7 @@
 
   <!-- Template Main CSS File -->
   <link href="{{ url_for('static', filename='css/style.css')}}" rel="stylesheet">
+  <link rel="stylesheet" href="light-theme.css" id="light-theme" disabled>
 
   <!-- =======================================================
   * Template Name: Lonely
@@ -78,6 +79,14 @@
           <li><a class="nav-link scrollto" href="#portfolio">Reservar Ingresso</a></li>
           <li><a class="nav-link scrollto" href="#testimonials">Comentários</a></li>
           <li><a class="nav-link scrollto" href="#contact">Contato</a></li>
+          <!-- Botão para alternar entre os temas -->
+          <li>
+            <button id="theme-toggle">
+                <i class="fas fa-sun" id="sun-icon"></i> <!-- ícone do sol -->
+                <i class="fas fa-moon" id="moon-icon" style="display:none;"></i> <!-- ícone da lua -->
+            </button>
+        </li>
+          <li><a class="nav-link scrollto" href="{{ url_for('logout') }}">Sair</a></li>
         </ul>
         <i class="bi bi-list mobile-nav-toggle"></i>
       </nav><!-- .navbar -->
@@ -418,6 +427,24 @@
   <!-- Template Main JS File -->
   <script src="{{ url_for('static', filename='js/main.js')}}"></script>
   <script>
+    const themeToggleButton = document.getElementById('theme-toggle');
+    const sunIcon = document.getElementById('sun-icon');
+    const moonIcon = document.getElementById('moon-icon');
+    const lightThemeLink = document.getElementById('light-theme');
+    
+    // Verifica se o tema claro está ativo e alterna o ícone
+    themeToggleButton.addEventListener('click', () => {
+        if (lightThemeLink.disabled) {
+            lightThemeLink.disabled = false;
+            sunIcon.style.display = 'none';
+            moonIcon.style.display = 'inline';
+        } else {
+            lightThemeLink.disabled = true;
+            sunIcon.style.display = 'inline';
+            moonIcon.style.display = 'none';
+        }
+    });
+
     function uianimated() {
       var uianimateds = document.querySelectorAll('.uianimated');
     
