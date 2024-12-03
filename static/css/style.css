@@ -88,6 +88,28 @@ a:hover {
   opacity: 1;
 }
 
+button#theme-toggle {
+  color: #fff;
+  background-color: transparent;
+  border: none;                /* Sem borda */
+  padding: 10px 26px;          /* Espaçamento interno */
+  font-size: 16px;             /* Tamanho da fonte */
+  border-radius: 5px;          /* Bordas arredondadas */
+  cursor: pointer;            /* Cursor de mão para indicar clique */
+  transition: background-color 0.3s ease; /* Transição suave para a cor de fundo */
+  justify-content: center;    /* Alinhando o conteúdo verticalmente */
+}
+
+/* Efeito de hover no botão */
+button#theme-toggle:hover {
+  background-color: #6b96be;  /* Cor de fundo azul escuro ao passar o mouse */
+}
+
+/* Efeito de foco (quando o botão é selecionado) */
+button#theme-toggle:focus {
+  outline: none;              /* Remove o contorno padrão */
+  box-shadow: 0 0 4px #6b96be; /* Adiciona uma sombra suave ao redor do botão */
+}
 /*--------------------------------------------------------------
 # Header
 --------------------------------------------------------------*/
@@ -290,7 +312,7 @@ a:hover {
   left: 15px;
   padding: 10px 0;
   border-radius: 10px;
-  background-color: #fff;
+  background-color: #000000;
   overflow-y: auto;
   transition: 0.3s;
 }
@@ -299,7 +321,7 @@ a:hover {
 .navbar-mobile a:focus {
   padding: 10px 20px;
   font-size: 15px;
-  color: #2c4964;
+  color: #fff;
 }
 
 .navbar-mobile a:hover,
@@ -523,7 +545,7 @@ a:hover {
 
 @media (max-width: 768px) {
 .container {
-  width: 444px !important;
+  width: 585px !important;
   height: 70% !important;
 }
 }

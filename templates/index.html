@@ -24,8 +24,8 @@
   <link href="{{ url_for('static', filename='vendor/swiper/swiper-bundle.min.css')}}" rel="stylesheet">
 
   <!-- Template Main CSS File -->
-  <link href="{{ url_for('static', filename='css/style.css')}}" rel="stylesheet">
-  <link rel="stylesheet" href="light-theme.css" id="light-theme" disabled>
+  <link id="light-theme" href="{{ url_for('static', filename='css/style.css')}}" rel="stylesheet">
+  
 
   <!-- =======================================================
   * Template Name: Lonely
@@ -67,9 +67,10 @@
     <div class="container d-flex align-items-center justify-content-between">
 
       <div class="logo">
-        <!-- <h1><a href="index.html">Show</a></h1> -->
-        <!-- Uncomment below if you prefer to use an image logo -->
-        <img src="{{ url_for('static', filename='img/logopng/logoballet.png')}}" alt="" class="img-fluid" width="200px"></a>
+        <!-- Logo para o tema escuro -->
+        <img id="logo_light" src="{{ url_for('static', filename='img/logopng/logoballet.png')}}" alt="" class="img-fluid" width="200px"></a>
+        <!-- Logo para o tema claro -->
+        <img id="logo_dark" src="{{ url_for('static', filename='img/logopng/logoballet_dark.png')}}" alt="" class="img-fluid" width="200px" style="display: none;">
       </div>
 
       <nav id="navbar" class="navbar">
@@ -82,8 +83,8 @@
           <!-- Botão para alternar entre os temas -->
           <li>
             <button id="theme-toggle">
-                <i class="fas fa-sun" id="sun-icon"></i> <!-- ícone do sol -->
-                <i class="fas fa-moon" id="moon-icon" style="display:none;"></i> <!-- ícone da lua -->
+                <i class="fas fa-sun" id="sun-icon" style="display: none;"></i> <!-- ícone do sol -->
+                <i class="fas fa-moon" id="moon-icon" style="display:inline;"></i> <!-- ícone da lua -->
             </button>
         </li>
           <li><a class="nav-link scrollto" href="{{ url_for('logout') }}">Sair</a></li>
@@ -431,19 +432,30 @@
     const sunIcon = document.getElementById('sun-icon');
     const moonIcon = document.getElementById('moon-icon');
     const lightThemeLink = document.getElementById('light-theme');
+    const logoLight = document.getElementById('logo_light');
+    const logoDark = document.getElementById('logo_dark');
     
-    // Verifica se o tema claro está ativo e alterna o ícone
+    // Função para alternar entre os temas
     themeToggleButton.addEventListener('click', () => {
-        if (lightThemeLink.disabled) {
-            lightThemeLink.disabled = false;
-            sunIcon.style.display = 'none';
-            moonIcon.style.display = 'inline';
-        } else {
-            lightThemeLink.disabled = true;
-            sunIcon.style.display = 'inline';
-            moonIcon.style.display = 'none';
-        }
-    });
+
+      if (lightThemeLink.getAttribute('href').includes('style.css')) {
+        // Se estiver no tema original (style.css), mude para o tema claro (light-theme.css)
+        lightThemeLink.setAttribute('href', "{{ url_for('static', filename='css/light-theme.css') }}");
+        sunIcon.style.display = 'inline';  // Exibe o ícone do sol
+        moonIcon.style.display = 'none';   // Esconde o ícone da lua
+        logoLight.style.display = 'none'; // Esconde a logo escura
+        logoDark.style.display = 'inline'; // Exibe a logo clara
+    } else {
+        // Se estiver no tema claro (light-theme.css), volte para o tema original (style.css)
+        lightThemeLink.setAttribute('href', "{{ url_for('static', filename='css/style.css') }}");
+        sunIcon.style.display = 'none';    // Esconde o ícone do sol
+        moonIcon.style.display = 'inline'; // Exibe o ícone da lua
+        logoLight.style.display = 'inline'; // Exibe a logo escura
+        logoDark.style.display = 'none';  // Esconde a logo clara
+    }
+});
+
+        
 
     function uianimated() {
       var uianimateds = document.querySelectorAll('.uianimated');
@@ -468,6 +480,7 @@
     
     window.addEventListener('load', onPageload);
     </script>
+
 </body>
 
 </html>
