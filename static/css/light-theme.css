@@ -732,8 +732,13 @@ section {
   left: 0;
 }
 
+#hero .section-title p {
+  margin-bottom: 0;
+  margin-top: 12px;
+  color: #ffffff;
+}
 
-.section-title p {
+#services .section-title p {
   margin-bottom: 0;
   margin-top: 12px;
   color: #5a5d5f;
@@ -945,13 +950,18 @@ section {
   padding: 20px 15px;
   position: relative;
   overflow: hidden;
-  background: #fff;
-  box-shadow: 0 0 29px 0 #6b96be90;
+  background: #46698ac0;;
+  box-shadow: 0 0 29px 0 #4e708f76;
   transition: all 0.3s ease-in-out;
   border-radius: 8px;
   text-align: center;
   z-index: 1;
 }
+
+.services .icon-box a{
+  color: #fff;
+}
+
 
 .services .icon-box::before {
   content: "";
@@ -965,7 +975,7 @@ section {
 }
 
 .services .icon-box:hover::before {
-  background: #6b96be8f;
+  background: #fff;
   height: 100%;
   border-radius: 0px;
 }
@@ -985,7 +995,7 @@ section {
 .services .icon i {
   font-size: 36px;
   line-height: 1;
-  color: #fff;
+  color: #e31717;
 }
 
 .services .title {
@@ -994,28 +1004,24 @@ section {
   font-size: 18px;
 }
 
-.services .title a {
-  /* color: #ffffff; */
-}
-
 .services .description {
   font-size: 15px;
   line-height: 24px;
   margin-bottom: 0;
-  color: #fff;
+  color: #47668300;
 }
 
 .services .data {
-  color: #717171;
+  color: #ffffff;
 }
 
 .services .classificacao {
-  color: #717171;
+  color: #d3d3d3;
   margin: 16px 0px 0px;
 }
 
 .services .genero {
-  color: #717171;
+  color: #ffffff;
   margin: 15px 0px 15px;
 }
 
@@ -1024,7 +1030,7 @@ section {
 .services .icon-box:hover .data ,
 .services .icon-box:hover .classificacao,
 .services .icon-box:hover .genero {
-  color: #3d3c3c;
+  color: #444343;
 transition: all 0.7s ease;
 }
 
@@ -1175,7 +1181,7 @@ transition: all 0.7s ease;
 
 .icon-box h4 {
   margin-top: 50px;
-  color: #5a5d5f;
+  color: #ffffff;
 }
 /*--------------------------------------------------------------
 # Portfolio Details
